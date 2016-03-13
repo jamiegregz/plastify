@@ -1,0 +1,37 @@
+Index page:
+Login: username, password
+Signup: username, email, password, confirm password
+
+Marketplace:
+Link to add a printer
+Search: printer, user, public model, price, resolution, color, etc.
+link to login/signup page
+
+account settings:
+delete account: password
+change password: current password, new password, confirm password
+change email: curreent password, new email (send a confirmation link)
+
+PRINTER:
+
+Add a printer:
+printer: manufacturer, model, custom name, max print size
+materials: resolution, materials, colours
+price: price per cm3, price per model (small medium large)
+delivery: couriers, pricing
+card details: card number expiration date, etc.
+
+accept an order:
+show the details submitted by the modler, allow the printer to set a time scale
+
+print an invoice:
+print the invoice
+
+MODELER:
+
+Upload model:
+custom name, model
+
+purchase print:
+upload model/select model, color, size, payment details, delivery address
+
