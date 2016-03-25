@@ -1,4 +1,7 @@
 <?php
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/InputController.class.php');
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/ValidationController.class.php');
+
     class PageController {
 
         /**
@@ -37,6 +40,17 @@
 
         public function __construct() {
 
+        }
+
+        /**
+         * Function to redirect the user to the required page
+         *
+         * @param string $page_name The page identifier to redirect the user to
+         *
+         * @return {void} Void: This function doesn't return anything
+         */
+        public function redirect_to($page_name) {
+            header('Location: /' . $page_name);
         }
 
         /**

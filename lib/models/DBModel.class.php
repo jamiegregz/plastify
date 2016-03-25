@@ -44,7 +44,7 @@
          *
          * @return {mysqli_result} $result The data returned from the database after the query has completed
          */
-        protected function db_query() {
+        public function db_query() {
             // Use the func_get_args function to get the first 2 params
             $arguments = implode(', ', func_get_args());
             $query = $arguments[0];
@@ -57,7 +57,7 @@
 
                 // Bind the parameters to the statement, using the call_user_func_array
                 // function to allow the passing of multiple parameters from an array
-                $stmt = call_user_func_array(array($foo, 'bind_param'), $params);
+                $stmt = call_user_func_array(array($stmt, 'bind_param'), $params);
 
                 if($stmt !== false) {
                     // Attempt to execure the query

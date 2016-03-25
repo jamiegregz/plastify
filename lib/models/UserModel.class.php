@@ -26,5 +26,22 @@
             // Query the database
             $result = $this->db_query($query, 's', $session_token);
         }
+
+        public function email_is_taken($email) {
+            $query = 'SELECT 1
+                      FROM users
+                      WHERE users.email = ?';
+
+            $result = $this->db_query($query, 's', $email);
+        }
+
+        public function username_is_taken($username) {
+            $query = 'SELECT 1
+                      FROM users
+                      WHERE users.username = ?';
+
+            $result = $this->db_query($query, 's', $username);
+        }
+
     }
 ?>

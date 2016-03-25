@@ -23,3 +23,6 @@ function getUrlParameter(sParam) {
         }
     }
 };
+
+// Check if the device is a touch screen, store true if it is
+var isTouchDevice = 'ontouchstart' in document.documentElement;

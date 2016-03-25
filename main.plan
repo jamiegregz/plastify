@@ -1,3 +1,11 @@
+CORE THINGS:
+
+Inputs: 
+Live JS validation
+
+
+GENERAL PAGES:
+
 Index page:
 Login: username, password
 Signup: username, email, password, confirm password
@@ -11,6 +19,9 @@ account settings:
 delete account: password
 change password: current password, new password, confirm password
 change email: curreent password, new email (send a confirmation link)
+
+error pages:
+404 message
 
 PRINTER:
 

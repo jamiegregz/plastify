@@ -1,0 +1,18 @@
+# Sort out redirection for API
+#
+#<IfModule mod_rewrite.c>
+#RewriteEngine On
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule api/v1/(.*)$ api/v1/api.php?request=$1 [QSA,NC,L]
+#</IfModule>
+
+# Remove php extensions.
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule !.*\.php$ %{REQUEST_FILENAME}.php [QSA,L]
+
+# Redirects for error messages
+ErrorDocument 404 /error/404.php
+
+# Redirect root access to the marketplace page
+RewriteRule ^$ /marketplace [L]

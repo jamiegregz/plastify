@@ -1,0 +1,29 @@
+body {
+    background-color: #ff5050;
+    color: #ffffff;
+}
+
+.container {
+    height: auto;
+    background-color: #ffffff;
+    border-radius: 4px;
+    margin: 60px 0px;
+}
+
+.login-content {
+    padding: 20px;
+}
+
+.login-logo {
+    background-image: url('/img/logos/logo-pink.svg');
+    height: auto;
+    margin:15px auto 0px auto;
+    max-width: 260px;
+}
+
+.login-logo:after {
+    padding-top: 50%;
+    /* 16:9 ratio */
+    display: block;
+    content: '';
+}
