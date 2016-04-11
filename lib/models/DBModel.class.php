@@ -1,6 +1,5 @@
 <?php
     class DBModel {
-
         private $DBHost = 'localhost';
         private $DBUser = 'root';
         private $DBPassword = '';
@@ -23,7 +22,7 @@
          * @return {mysqli} $connection The newly created database connection. Returns false on failure
          */
         private function create_connection() {
-            $connection = new mysqli($DBHost, $DBUser, $DBPassword, $DBName);
+            $connection = new mysqli($this->DBHost, $this->DBUser, $this->DBPassword, $this->DBName);
 
             if($connection->connect_errno) {
                 // The connection to the database failed, return false
@@ -32,6 +31,16 @@
                 // The connection was successful, return the connection instance
                 return $connection;
             }
+        }
+
+        private function ref_values($arr) {
+            $refs = array();
+
+            foreach ($arr as $key => $value) {
+                $refs[$key] = &$arr[$key];
+            }
+
+            return $refs;
         }
 
         /**
@@ -46,7 +55,7 @@
          */
         public function db_query() {
             // Use the func_get_args function to get the first 2 params
-            $arguments = implode(', ', func_get_args());
+            $arguments = func_get_args(); //implode(', ', func_get_args());
             $query = $arguments[0];
             $params_type = $arguments[1];
 
@@ -57,13 +66,13 @@
 
                 // Bind the parameters to the statement, using the call_user_func_array
                 // function to allow the passing of multiple parameters from an array
-                $stmt = call_user_func_array(array($stmt, 'bind_param'), $params);
+                $bind_result = call_user_func_array(array($stmt, 'bind_param'), $this->ref_values($params));
 
-                if($stmt !== false) {
-                    // Attempt to execure the query
-                    $stmt = $stmt->execute();
+                if($bind_result !== false) {
+                    // Attempt to execute the query
+                    $execute_result = $stmt->execute();
 
-                    if($stmt !== false) {
+                    if($execute_result !== false) {
                         // The query succeeded, return the data returned from the DB
                         return $stmt->get_result();
                     }

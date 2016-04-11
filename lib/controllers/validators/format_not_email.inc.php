@@ -6,6 +6,7 @@
         // The user input is a valid email, return false
         return false;
     } else {
+        // The email is invalid
         return true;
     }
 ?>

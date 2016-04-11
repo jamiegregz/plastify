@@ -40,15 +40,21 @@
          */
         public $validation_attributes;
 
-        public function __construct($name = '') {
-            if($name != '') {
-                $this->name = $name;
-            } else {
-                $this->name = '';
-            }
+        public function __construct($name, $error_validation_array, $success_message) {
+            $this->name = $name;
+
+            // Set the error validation and success message
+            $this->validators = $error_validation_array;
+            $this->success_message = $success_message;
 
             // Attempt to get the user input
             $this->get_user_input();
+
+            // Get validation attrubutes
+            $this->get_validation_attributes();
+
+            // Automatically validate the input if it has been submitted by the user
+            if($this->is_submitted()) $this->validate_input();
         }
 
         public function set_error_validation($validation_array) {
@@ -62,7 +68,7 @@
         /**
          * Tests whether the user input is valid or not
          */
-        private function validate_input() {
+        public function validate_input() {
             foreach($this->validators as $validator => $validator_info) {
                 if((include $_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/validators/' .
                            $validator . '.inc.php') == false) {
@@ -77,15 +83,37 @@
                     $this->is_valid = false;
                     $this->status = 'error';
                     $this->user_message = $validator_info['message'];
+                    return false;
                 }
+            }
+
+            // Return true when all validation tests have passed
+            if($this->is_valid) {
+                return true;
             }
         }
 
         /**
-         * Returnes where the user input has passed all set validation checks
+         * Returns where the user input has passed all set validation checks
+         * after being submitted by the user.
          */
-        public function is_valid() {
-            return $this->is_valid;
+        public function is_submitted_and_valid() {
+            if(isset($this->user_input) && $this->is_valid) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        /**
+         * If the user input has been submitted, return true, otherwise return false.
+         */
+        public function is_submitted() {
+            if(isset($this->user_input)) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
         public function get_name() {
@@ -100,9 +128,6 @@
         }
 
         public function display_message() {
-            // Validate the input to make sure everything is up to date
-            $this->validate_input();
-
             if(isset($this->user_input)) {
                 // Display the error message
                 echo $this->user_message;
@@ -110,9 +135,6 @@
         }
 
         public function display_message_with_view($message_view = null) {
-            // Validate the input to make sure everything is up to date
-            $this->validate_input();
-
             if(isset($this->user_input)) {
                 if($this->user_message != '') {
                     if($message_view == null) {
@@ -173,6 +195,11 @@
 
             $this->validation_attributes = $attributes;
             return $this->validation_attributes;
+        }
+
+        public function force_custom_error_message($content = '') {
+            $this->status = 'error';
+            $this->user_message = $content;
         }
     }
 ?>

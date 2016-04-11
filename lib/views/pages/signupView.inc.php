@@ -40,7 +40,6 @@
                    name="<?php echo $signup_password->name; ?>"
                    id="<?php echo $signup_password->name; ?>"
                    placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
-                   value="<?php echo $signup_password->user_input; ?>"
                    class="<?php echo $signup_password->status; ?> text width-1" />
             <?php $signup_password->display_message_with_view(); ?>
         </div>
@@ -51,7 +50,6 @@
                    name="<?php echo $signup_password_confirm->name; ?>"
                    id="<?php echo $signup_password_confirm->name; ?>"
                    placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
-                   value="<?php echo $signup_password_confirm->user_input; ?>"
                    class="<?php echo $signup_password_confirm->status; ?> text width-1" />
             <?php $signup_password_confirm->display_message_with_view(); ?>
         </div>

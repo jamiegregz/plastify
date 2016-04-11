@@ -1,7 +1,10 @@
 <?php
     // Start the session
     session_start();
+
+    // Include dependencies
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/PageController.class.php');
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/event_managers/SignupManager.inc.php');
 
     // Page Config
     $page = new PageController();
@@ -16,8 +19,7 @@
     }
 
     // Setup the pages forms
-    $signup_username = new InputController('signup_username');
-    $signup_username->set_error_validation([
+    $signup_username = new InputController('signup_username', [
         'empty' => [
             'message' => 'Please create a username!'
         ],
@@ -27,12 +29,9 @@
         'username_exists' => [
             'message' => 'This username is already taken! Please choose a different one.'
         ]
-    ]);
-    $signup_username->set_success_message('This is all okay!');
-    $signup_username->get_validation_attributes();
+    ], 'This is all okay!');
 
-    $signup_email = new InputController('signup_email');
-    $signup_email->set_error_validation([
+    $signup_email = new InputController('signup_email', [
         'empty' => [
             'message' => 'Please enter your email address!'
         ],
@@ -42,23 +41,18 @@
         'email_exists' => [
             'message' => 'This email is already registered!'
         ]
-    ]);
-    $signup_email->set_success_message('This is all okay!');
-    $signup_email->get_validation_attributes();
+    ], 'This is all okay!');
 
-    $signup_password = new InputController('signup_password');
-    $signup_password->set_error_validation([
+    $signup_password = new InputController('signup_password', [
         'empty' => [
             'message' => 'You must choose a password!'
         ],
         'format_not_password' => [
             'message' => 'Your password must be at least 7 characters long, and contain a mix of numbers and letters'
         ]
-    ]);
-    $signup_password->get_validation_attributes();
+    ], '');
 
-    $signup_password_confirm = new InputController('signup_password');
-    $signup_password_confirm->set_error_validation([
+    $signup_password_confirm = new InputController('signup_password_confirm', [
         'empty' => [
             'message' => 'You must confirm your password'
         ],
@@ -66,9 +60,22 @@
             'string' => $signup_password->user_input,
             'message' => 'The passwords don\'t match!'
         ]
-    ]);
-    $signup_password_confirm->get_validation_attributes();
+    ], '');
 
+    if($signup_username->is_submitted_and_valid() &&
+       $signup_email->is_submitted_and_valid() &&
+       $signup_password->is_submitted_and_valid() &&
+       $signup_password_confirm->is_submitted_and_valid()) {
+        // Initiate the signup process
+        $signup_manager = new SignupManager();
+        $signup_manager->set_input_values(
+            $signup_username->user_input,
+            $signup_email->user_input,
+            $signup_password->user_input,
+            $signup_password_confirm->user_input
+        );
+        $signup_manager->signup();
+    }
     // Get all of the specified contents, scripts, CSS, etc. to be displayed into the PageController
     include($_SERVER['DOCUMENT_ROOT'] . '/lib/views/pages/' . $page->name . 'View.inc.php');
 

@@ -5,9 +5,9 @@
 
     <link rel="stylesheet" type="text/css" href="/css/core-v1.css" />
 
-    <script src="/js/jquery-v1.12.1.min.js"></script>
-    <script src="/js/core-v1.js"></script>
-
+    <script type="text/javascript" src="/js/jquery-v1.12.1.min.js"></script>
+    <script type="text/javascript" src="/js/core-v1.js"></script>
+    <script type="text/javascript" src="/js/validation-v1.js"></script>
     <?php
         // Include any custom scripts/css files
         if($page->has_custom_head_scripts()) {
