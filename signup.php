@@ -1,10 +1,8 @@
 <?php
-    // Start the session
-    session_start();
-
     // Include dependencies
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/PageController.class.php');
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/event_managers/SignupManager.inc.php');
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/event_managers/LoginManager.inc.php');
 
     // Page Config
     $page = new PageController();
@@ -12,8 +10,13 @@
     $page->title = 'Signup';
 
     $user = null;
-    // Check if a session is set
-    if($page->session_set()) {
+
+    $page->start_session();
+
+    // Check if the user is loggedin
+    $login_manager = new LoginManager();
+
+    if($login_manager->is_loggedin()) {
         // Redirect the user to the marketplace
         $page->redirect_to('marketplace');
     }
@@ -66,6 +69,7 @@
        $signup_email->is_submitted_and_valid() &&
        $signup_password->is_submitted_and_valid() &&
        $signup_password_confirm->is_submitted_and_valid()) {
+
         // Initiate the signup process
         $signup_manager = new SignupManager();
         $signup_manager->set_input_values(
@@ -74,7 +78,26 @@
             $signup_password->user_input,
             $signup_password_confirm->user_input
         );
-        $signup_manager->signup();
+
+        if(!$signup_manager->signup()) {
+            // The signup was unsuccessful, display a page error
+            $page->error_message = 'We are having issues signing you up at the moment, please try again later.';
+        } else {
+            // The user was successfully signed up, initiate the login process.
+            // No need to instantiate LoginManager as the object already exists
+            $login_manager->set_input_values(
+                $signup_username->user_input,
+                $signup_password->user_input
+            );
+
+            if($login_manager->login()) {
+                // Redirect to the login page
+                $page->redirect_to('marketplace');
+            } else {
+                // The login was unsuccessful, redirect the the login page
+                $page->redirect_to('login');
+            }
+        }
     }
     // Get all of the specified contents, scripts, CSS, etc. to be displayed into the PageController
     include($_SERVER['DOCUMENT_ROOT'] . '/lib/views/pages/' . $page->name . 'View.inc.php');

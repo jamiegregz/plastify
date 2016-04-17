@@ -9,6 +9,22 @@
         <div class="width-1 inline-fix">
             <div class="width-1 width-large-2-12 width-medium-3-12 width-small-3-12 width-tiny-1"></div>
             <div class="content-wrapper width-1 width-large-10-12 width-medium-9-12 width-small-9-12 width-tiny-1">
+                <?php if($page->error_message_exists()): ?>
+                    <div class="width-1page-error-wrapper">
+                        <div class="page-error-content">
+                            <?php echo $page->error_message; ?>
+                        </div>
+                    </div>
+                <?php endif ?>
+
+                <?php if($page->success_message_exists()): ?>
+                    <div class="width-1 page-success-wrapper">
+                        <div class="page-success-content">
+                            <?php echo $page->success_message; ?>
+                        </div>
+                    </div>
+                <?php endif ?>
+
                 <?php echo $page->content; ?>
 
                 <?php include($_SERVER['DOCUMENT_ROOT'] . '/lib/views/includes/Footer.inc.php'); ?>

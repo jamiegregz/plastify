@@ -1,6 +1,8 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/InputController.class.php');
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/DropdownController.class.php');
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/ValidationController.class.php');
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/objects/SecureSession.class.php');
 
     class PageController {
 
@@ -37,6 +39,20 @@
          */
         public $custom_body_scripts = '';
 
+        /**
+         * This is an important error message to be displayed on the page to the user.
+         */
+        public $error_message = '';
+
+        /**
+         * This is an important error message to be displayed on the page to the user.
+         */
+        public $success_message = '';
+
+        /**
+         * Holds the session wrapper object the page can interact with.
+         */
+        public $session = null;
 
         public function __construct() {
 
@@ -120,6 +136,46 @@
             } else {
                 return true;
             }
+        }
+
+        /**
+         * Tests wether or not the custom error message has been set <br />
+         * <strong>This function does not accept any arguments.</strong>
+         *
+         * @return {bool} true is returned if a page error message exists.
+         */
+        public function error_message_exists() {
+            if($this->error_message == '') {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        /**
+         * Tests wether or not the custom success message has been set <br />
+         * <strong>This function does not accept any arguments.</strong>
+         *
+         * @return {bool} true is returned if a page success message exists.
+         */
+        public function success_message_exists() {
+            if($this->success_message == '') {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        /**
+         * Function to initiate a session on the current page.<br />
+         * <strong>This function does not accept any arguments.</strong>
+         *
+         * @return {void} Void: This function doesn't return anything
+         */
+
+        public function start_session() {
+            $this->session = new SecureSession();
+            if($this->session) $this->session->start();
         }
     }
 ?>

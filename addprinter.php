@@ -2,14 +2,16 @@
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/PageController.class.php');
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/event_managers/LoginManager.inc.php');
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/models/UserModel.class.php');
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/models/PrinterModel.class.php');
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/models/CatalogueModel.class.php');
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/objects/SecureSession.class.php');
 
     // Page Config
     $page = new PageController();
-    $page->name = 'marketplace';
-    $page->title = 'Plastify Marketplace';
+    $page->name = 'addprinter';
+    $page->title = 'Add a Printer';
 
-    $user = null;
+    $_SESSION['user'] = null;
 
     $page->start_session();
 
@@ -18,8 +20,22 @@
 
     if($login_manager->is_loggedin()) {
         // Create a user model and get the data from the database
-        $user = new UserModel();
-        $user->fetch_base_data_from_token(SecureSession::get_value('token'));
+        $_SESSION['user'] = new UserModel();
+        $_SESSION['user']->fetch_base_data_from_token(SecureSession::get_value('token'));
+    }
+
+    $catalogue_model = new CatalogueModel();
+    $catalogue_model->get_printer_manufacturers();
+
+    // Setup the pages forms
+    $add_printer_manufacturer = new DropdownController('add_printer_manufacturer', [
+        'empty' => [
+            'message' => 'Choose a manufacturer from the list!'
+        ]
+    ], 'This is all okay!');
+
+    foreach($catalogue_model->printer_manufacturers as $manufacturer) {
+        $add_printer_manufacturer->add_option($manufacturer['manufacturer_id'], $manufacturer['name']);
     }
 
     // Get all of the specified contents, scripts, CSS, etc. to be displayed into the PageController

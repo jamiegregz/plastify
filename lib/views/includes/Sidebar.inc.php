@@ -1,8 +1,10 @@
 <div class="menu-wrapper width-1 width-large-2-12 width-medium-3-12 width-small-3-12 width-tiny-1">
     <ul>
-        <a href="login"><li <?php
-            if($page->name == "login") echo 'class="selected"';
-        ?>>Login or Signup</li></a>
+        <?php if(!$login_manager->is_loggedin()): ?>
+            <a href="login"><li>Login or Signup</li></a>
+        <?php else: ?>
+            <a href="logout"><li>Logout</li></a>
+        <?php endif ?>
         <a href="marketplace"><li <?php
             if($page->name == "marketplace") echo 'class="selected"';
         ?>>Marketplace</li></a>

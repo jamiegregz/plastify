@@ -42,6 +42,10 @@
                    value="Login!"
                    class="button" />
         </div>
+
+        <p>
+            <a href="signup">Not a Plastify member? Signup up now!</a>
+        </p>
     </form>
 </div>
 <?php $page->content = ob_get_contents(); ob_clean(); ?>

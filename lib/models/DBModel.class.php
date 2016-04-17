@@ -57,24 +57,37 @@
             // Use the func_get_args function to get the first 2 params
             $arguments = func_get_args(); //implode(', ', func_get_args());
             $query = $arguments[0];
-            $params_type = $arguments[1];
+            if(isset($arguments[1])) $params_type = $arguments[1];
+            else $params_type = '';
 
-            // Attempt to prepare the query
-            if($stmt = $this->connection->prepare($query)) {
-                // Remove the query from the arguments list
-                $params = array_slice($arguments, 1);
+            if($this->connection != false) {
+                // Attempt to prepare the query
+                if($stmt = $this->connection->prepare($query)) {
+                    // Remove the query from the arguments list
+                    $params = array_slice($arguments, 1);
 
-                // Bind the parameters to the statement, using the call_user_func_array
-                // function to allow the passing of multiple parameters from an array
-                $bind_result = call_user_func_array(array($stmt, 'bind_param'), $this->ref_values($params));
+                    // Bind the parameters to the statement, using the call_user_func_array
+                    // function to allow the passing of multiple parameters from an array
+                    $bind_result = null;
 
-                if($bind_result !== false) {
-                    // Attempt to execute the query
-                    $execute_result = $stmt->execute();
+                    if($params_type != '') {
+                        $bind_result = call_user_func_array(array($stmt, 'bind_param'), $this->ref_values($params));
+                    }
 
-                    if($execute_result !== false) {
-                        // The query succeeded, return the data returned from the DB
-                        return $stmt->get_result();
+                    if($params_type == '' || $bind_result !== false) {
+                        // Attempt to execute the query
+                        $execute_result = $stmt->execute();
+
+                        if($execute_result !== false) {
+                            // The query succeeded, return the data returned from the DB
+                            $result = $stmt->get_result();
+
+                            // Store the number of affected rows in a variable
+                            $this->affected_rows = $this->connection->affected_rows;
+
+                            // Return the result to the user
+                            return $result;
+                        }
                     }
                 }
             }

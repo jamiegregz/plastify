@@ -1,7 +1,4 @@
 <?php
-    // Start the session
-    session_start();
-
     // Include all dependencies and classes
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/PageController.class.php');
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/event_managers/LoginManager.inc.php');
@@ -12,8 +9,13 @@
     $page->title = 'Login';
 
     $user = null;
-    // Check if a session is set
-    if($page->session_set()) {
+
+    $page->start_session();
+
+    // Check if the user is loggedin
+    $login_manager = new LoginManager();
+
+    if($login_manager->is_loggedin()) {
         // Redirect the user to the marketplace
         $page->redirect_to('marketplace');
     }
@@ -45,7 +47,12 @@
 
         if($login_manager->login_details_are_valid()) {
             // The login details provided by the user are valid, initiate the login process
-            $login_manager->login();
+            if($login_manager->login()) {
+                // The user is now logged in, redirect to the marketplace
+                $page->redirect_to('marketplace');
+            } else {
+                $page->error_message = 'We are having a few issues logging you in. Please try again later.';
+            }
         } else {
             // The login details are invalid, set the input error messages
             $login_username->force_custom_error_message('The username or password is incorrect!');

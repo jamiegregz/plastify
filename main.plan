@@ -7,18 +7,19 @@ Live JS validation
 GENERAL PAGES:
 
 Index page:
-Login: username, password
-Signup: username, email, password, confirm password
+--Login: username, password - done
+--Signup: username, email, password, confirm password - done
 
 Marketplace:
-Link to add a printer
+--Link to add a printer - done
 Search: printer, user, public model, price, resolution, color, etc.
-link to login/signup page
+--link to login/signup page - done
 
 account settings:
 delete account: password
 change password: current password, new password, confirm password
-change email: curreent password, new email (send a confirmation link)
+--change email: current password, new email
+(send a confirmation link)
 
 error pages:
 404 message

@@ -7,11 +7,11 @@
 <?php $page->custom_css = ob_get_contents(); ob_clean(); ?>
 
 <?php /* Include body contents here... */ ?>
-<div class="login-content">
-    <div class="login-logo">
+<div class="signup-content">
+    <div class="signup-logo">
     </div>
 
-    <form method="post">
+    <form method="post" autocomplete="off">
         <div class="input-wrapper width-1">
             <label for="<?php echo $signup_username->name; ?>">Username</label>
             <input type="text"
@@ -60,6 +60,10 @@
                    value="Signup!"
                    class="button" />
         </div>
+
+        <p>
+            <a href="login">Aready have an account? Login!</a>
+        </p>
     </form>
 </div>
 <?php $page->content = ob_get_contents(); ob_clean(); ?>

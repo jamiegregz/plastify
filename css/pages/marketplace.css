@@ -47,8 +47,10 @@
     height:100%;
     background-size:cover;
     background-position:center center;
-    position:absolute;
+    position:relative;
     overflow:hidden;
+    z-index: 1;
+    border-radius: 4px 4px 0px 0px;
 }
 
 .user-profile-pic-bg img {
@@ -58,7 +60,8 @@
     -webkit-filter:blur(10px) opacity(0.8);
     margin:-1px;
     padding:1px;
-    margin: -10px -20px -20px -10px;
+    margin: -16px -32px -32px -16px;
+    z-index: 0;
 }
 
 .user-profile-pic-icon {
@@ -70,6 +73,7 @@
     position:absolute;
     left:50%;
     margin:20px -50px;
+    top: 0px;
 }
 
 .user-profile-pic-icon img{

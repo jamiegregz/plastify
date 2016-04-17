@@ -138,10 +138,10 @@
             if(isset($this->user_input)) {
                 if($this->user_message != '') {
                     if($message_view == null) {
-                        echo include($_SERVER['DOCUMENT_ROOT'] . '/lib/views/includes/messages/StandardMessage.inc.php');
+                        include($_SERVER['DOCUMENT_ROOT'] . '/lib/views/includes/messages/StandardMessage.inc.php');
                     } else {
-                        echo include($_SERVER['DOCUMENT_ROOT'] . '/lib/views/includes/messages/' .
-                                     $message_view . '.inc.php');
+                        include($_SERVER['DOCUMENT_ROOT'] . '/lib/views/includes/messages/' .
+                                $message_view . '.inc.php');
                     }
                 }
             }
@@ -150,10 +150,10 @@
         public function display_input_with_view($input_view = null) {
             if($input_view == null) {
                 // Show the standard input layout
-                echo include($_SERVER['DOCUMENT_ROOT'] . '/lib/views/includes/inputs/StandardInput.inc.php');
+                include($_SERVER['DOCUMENT_ROOT'] . '/lib/views/includes/inputs/StandardInput.inc.php');
             } else {
-                echo include($_SERVER['DOCUMENT_ROOT'] . '/lib/views/includes/inputs/' .
-                             $input_view . '.inc.php');
+                include($_SERVER['DOCUMENT_ROOT'] . '/lib/views/includes/inputs/' .
+                        $input_view . '.inc.php');
             }
         }
 

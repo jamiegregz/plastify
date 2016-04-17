@@ -1,7 +1,8 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/event_managers/EventManager.class.php');
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/models/DBModel.class.php');
 
-    class SignupManager extends EventManager{
+    class SignupManager extends EventManager {
 
         private $username = '';
 
@@ -28,6 +29,19 @@
             $secure_password->create_from($this->password);
 
             // Prepare the insertion query
+            $query = 'INSERT INTO users (username, email, password, password_salt) VALUES(?, ?, ?, ?)';
+            $db_model = new DBModel();
+            $db_model->db_query($query, 'ssss', $this->username,
+                                                $this->email,
+                                                $secure_password->value,
+                                                $secure_password->salt);
+
+            // Check if the user was successfully inserted into the database
+            if($db_model->affected_rows == 1) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 ?>
