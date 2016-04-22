@@ -26,3 +26,18 @@ function getUrlParameter(sParam) {
 
 // Check if the device is a touch screen, store true if it is
 var isTouchDevice = 'ontouchstart' in document.documentElement;
+
+// Navbar events
+$(document).ready(function () {
+    $("#menu-button").click(function () {
+        if($(".menu-wrapper").offset().left == 0) {
+            // Hide the sidebar, re-enable scrolling
+            $(".menu-wrapper").animate({"left": "-100%"});
+            document.ontouchmove = function(event){}
+        } else {
+            // Show the sidebar, disable scrolling
+            $(".menu-wrapper").animate({"left": "0px"});
+            document.ontouchmove = function(event){ event.preventDefault(); }
+        }
+    });
+});

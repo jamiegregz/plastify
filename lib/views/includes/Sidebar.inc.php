@@ -1,4 +1,4 @@
-<div class="menu-wrapper width-1 width-large-2-12 width-medium-3-12 width-small-3-12 width-tiny-1">
+<div class="menu-wrapper width-1 width-large-2-12 width-medium-3-12 width-small-3-12 width-tiny-11-12">
     <ul>
         <?php if(!$login_manager->is_loggedin()): ?>
             <a href="login"><li>Login or Signup</li></a>

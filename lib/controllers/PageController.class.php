@@ -1,6 +1,7 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/InputController.class.php');
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/DropdownController.class.php');
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/CheckboxController.class.php');
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/ValidationController.class.php');
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/objects/SecureSession.class.php');
 

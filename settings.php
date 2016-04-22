@@ -22,6 +22,9 @@
         // Create a user model and get the data from the database
         $_SESSION['user'] = new UserModel();
         $_SESSION['user']->fetch_base_data_from_token(SecureSession::get_value('token'));
+    } else {
+        // Redirect the user to the login page
+        $page->redirect_to('login');
     }
 
     // Setup the pages forms

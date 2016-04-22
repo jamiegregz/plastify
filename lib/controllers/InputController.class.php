@@ -124,7 +124,7 @@
          * Print the view with the inputs data to the screen where the function is called
          */
         public function display_with_view($input_view) {
-            echo include($_SERVER['DOCUMENT_ROOT'] . '/lib/views/includes/inputs/' . $input_view . '.inc.php');
+            include($_SERVER['DOCUMENT_ROOT'] . '/lib/views/includes/inputs/' . $input_view . '.inc.php');
         }
 
         public function display_message() {
