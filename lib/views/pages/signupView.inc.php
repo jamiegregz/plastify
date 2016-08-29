@@ -19,7 +19,8 @@
                    id="<?php echo $signup_username->name; ?>"
                    placeholder="username123"
                    value="<?php echo $signup_username->user_input; ?>"
-                   class="<?php echo $signup_username->status; ?> text width-1" />
+                   class="<?php echo $signup_username->status; ?> text width-1"
+                   <?php echo $signup_username->validation_attributes; ?> />
             <?php $signup_username->display_message_with_view(); ?>
         </div>
 
@@ -30,7 +31,8 @@
                    id="<?php echo $signup_email->name; ?>"
                    placeholder="myemail&#64;example.com"
                    value="<?php echo $signup_email->user_input; ?>"
-                   class="<?php echo $signup_email->status; ?> text width-1" />
+                   class="<?php echo $signup_email->status; ?> text width-1"
+                   <?php echo $signup_email->validation_attributes; ?> />
             <?php $signup_email->display_message_with_view(); ?>
         </div>
 
@@ -40,7 +42,8 @@
                    name="<?php echo $signup_password->name; ?>"
                    id="<?php echo $signup_password->name; ?>"
                    placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
-                   class="<?php echo $signup_password->status; ?> text width-1" />
+                   class="<?php echo $signup_password->status; ?> text width-1"
+                   <?php echo $signup_password->validation_attributes; ?> />
             <?php $signup_password->display_message_with_view(); ?>
         </div>
 
@@ -50,7 +53,8 @@
                    name="<?php echo $signup_password_confirm->name; ?>"
                    id="<?php echo $signup_password_confirm->name; ?>"
                    placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
-                   class="<?php echo $signup_password_confirm->status; ?> text width-1" />
+                   class="<?php echo $signup_password_confirm->status; ?> text width-1"
+                   <?php echo $signup_password_confirm->validation_attributes; ?> />
             <?php $signup_password_confirm->display_message_with_view(); ?>
         </div>
 

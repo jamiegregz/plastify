@@ -7,12 +7,14 @@
 #RewriteRule api/v1/(.*)$ api/v1/api.php?request=$1 [QSA,NC,L]
 #</IfModule>
 
+RewriteEngine On
+
+# Redirect root access to the marketplace page
+RewriteRule ^$ /marketplace [L]
+
 # Remove php extensions.
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule !.*\.php$ %{REQUEST_FILENAME}.php [QSA,L]
 
 # Redirects for error messages
 ErrorDocument 404 /error/404.php
-
-# Redirect root access to the marketplace page
-RewriteRule ^$ /marketplace [L]

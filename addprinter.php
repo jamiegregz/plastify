@@ -1,5 +1,6 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/PageController.class.php');
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/PaymentController.class.php');
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/controllers/event_managers/LoginManager.inc.php');
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/models/UserModel.class.php');
     require_once($_SERVER['DOCUMENT_ROOT'] . '/lib/models/PrinterModel.class.php');
@@ -57,6 +58,16 @@
             'message' => 'Please select at least one colour!'
         ]
     ], 'This is all okay!');
+    
+    // Configure the payment service
+    $payment_controller = new PaymentController();
+
+    if($payment_controller->is_submitted_and_valid()) {
+        // Generate the payment
+        $payment_controller->create_sale([
+            'amount' => 100
+        ]);
+    }
 
     // Get all of the specified contents, scripts, CSS, etc. to be displayed into the PageController
     include($_SERVER['DOCUMENT_ROOT'] . '/lib/views/pages/' . $page->name . 'View.inc.php');

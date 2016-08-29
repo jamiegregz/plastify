@@ -110,6 +110,7 @@ label {
     outline:none;
     border-radius: 4px;
     cursor: pointer;
+    display: inline-block;
 }
 .button:hover {
     box-shadow: 0 5px 16px 0px rgba(0,0,0,0.4);
@@ -158,6 +159,16 @@ select::-ms-expand { /* for IE 11 */
 
 .pill {
     border-radius:100000px;
+}
+
+/* Input Containers */
+.input-container {
+    padding:0px 0px 10px 0px;
+    box-sizing:border-box;
+    position:relative;
+}
+.input-container .input-group:not(:last-child), .input-container .input-wrapper:not(:last-child) {
+    margin-bottom: -10px;
 }
 
 /* Input Groups */

@@ -59,8 +59,8 @@
         'empty' => [
             'message' => 'You must confirm your password'
         ],
-        'does_not_match_string' => [
-            'string' => $signup_password->user_input,
+        'does_not_match_input' => [
+            'input' => $signup_password->name,
             'message' => 'The passwords don\'t match!'
         ]
     ], '');

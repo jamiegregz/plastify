@@ -1,6 +1,8 @@
 <?php ob_start(); ?>
 
 <?php /* Include custom head scripts here... */ ?>
+<script type="text/javascript" src="/js/jquery-cookie-v1.4.1.js"></script>
+<script type="text/javascript" src="https://js.braintreegateway.com/js/braintree-2.23.0.min.js"></script>
 <?php $page->custom_head_scripts = ob_get_contents(); ob_clean(); ?>
 
 <?php /* Include custom CSS here... */ ?>
@@ -29,7 +31,7 @@
             </div>
         </div>
     </div>
-    <form method="post" autocomplete="off">
+    <form method="post" autocomplete="off" id="addprinter">
         <div id="form-section-printer">
             <div class="section inline-fix">
                 <div class="content-header">
@@ -46,25 +48,28 @@
                         </select>
                     </div>
                 </div>
-                <div class="input-wrapper width-large-4-12 width-medium-6-12 width-small-6-12 width-tiny-1">
-                    <label for="<?php echo $add_printer_manufacturer->name; ?>">Select Your Printer's Model...</label>
-                    <div class="select-wrapper">
-                        <select name="<?php echo $add_printer_manufacturer->name; ?>"
-                                id="<?php echo $add_printer_manufacturer->name; ?>"
-                                class="select">
-                            <option value="-">-- Select Your Model --</option>
-                            <?php $add_printer_manufacturer->show_options(); ?>
-                        </select>
+                <div class="input-container width-large-4-12 width-medium-6-12 width-small-6-12 width-tiny-1">
+                    <div class="input-wrapper width-1">
+                        <label for="<?php echo $add_printer_manufacturer->name; ?>">Select Your Printer's Model...</label>
+                        <div class="select-wrapper">
+                            <select name="<?php echo $add_printer_manufacturer->name; ?>"
+                                    id="<?php echo $add_printer_manufacturer->name; ?>"
+                                    class="select">
+                                <option value="-">-- Select Your Model --</option>
+                                <?php $add_printer_manufacturer->show_options(); ?>
+                            </select>
+                        </div>
                     </div>
-
-                    <label for="<?php echo $add_printer_manufacturer->name; ?>">... Or Enter It's Name</label>
-                    <input type="text"
-                           name="<?php echo $add_printer_manufacturer->name; ?>"
-                           id="<?php echo $add_printer_manufacturer->name; ?>"
-                           placeholder="Model 3D"
-                           value="<?php echo $add_printer_manufacturer->user_input; ?>"
-                           class="<?php echo $add_printer_manufacturer->status; ?> text width-1" />
-                    <?php $add_printer_manufacturer->display_message_with_view(); ?>
+                    <div class="input-wrapper width-1">
+                        <label for="<?php echo $add_printer_manufacturer->name; ?>">... Or Enter It's Name</label>
+                        <input type="text"
+                               name="<?php echo $add_printer_manufacturer->name; ?>"
+                               id="<?php echo $add_printer_manufacturer->name; ?>"
+                               placeholder="Model 3D"
+                               value="<?php echo $add_printer_manufacturer->user_input; ?>"
+                               class="<?php echo $add_printer_manufacturer->status; ?> text width-1" />
+                        <?php $add_printer_manufacturer->display_message_with_view(); ?>
+                    </div>
                 </div>
             </div>
 
@@ -187,8 +192,185 @@
                 <div class="content-header">
                     Pricing &amp; Delivery
                 </div>
+                
+                <div class="width-large-4-12 width-medium-6-12 width-small-6-12 width-tiny-1 inline-fix">
+                    <div class="input-container width-1">
+                        <div class="input-group width-1 inline-fix
+                                    <?php echo $add_printer_manufacturer->status; ?>">
+                            <label for="<?php echo $add_printer_manufacturer->name; ?>">Small Print Size (mm) between...</label>
+                            <div class="input-wrapper width-5-12">
+                                <input type="text"
+                                       name="<?php echo $add_printer_manufacturer->name; ?>"
+                                       id="<?php echo $add_printer_manufacturer->name; ?>"
+                                       placeholder="300"
+                                       value="<?php echo $add_printer_manufacturer->user_input; ?>"
+                                       class="text width-1" />
+                            </div>
+                            <div class="input-wrapper width-2-12">
+                                <div class="input-addon width-1">
+                                    x
+                                </div>
+                            </div>
+                            <div class="input-wrapper width-5-12">
+                                <input type="text"
+                                       name="<?php echo $add_printer_manufacturer->name; ?>"
+                                       id="<?php echo $add_printer_manufacturer->name; ?>"
+                                       placeholder="400"
+                                       value="<?php echo $add_printer_manufacturer->user_input; ?>"
+                                       class="text width-1" />
+                            </div>
+                        </div>
+                        <div class="input-group width-1 inline-fix
+                                    <?php echo $add_printer_manufacturer->status; ?>">
+                            <label for="<?php echo $add_printer_manufacturer->name; ?>">...and...</label>
+                            <div class="input-wrapper width-5-12">
+                                <input type="text"
+                                       name="<?php echo $add_printer_manufacturer->name; ?>"
+                                       id="<?php echo $add_printer_manufacturer->name; ?>"
+                                       placeholder="300"
+                                       value="<?php echo $add_printer_manufacturer->user_input; ?>"
+                                       class="text width-1" />
+                            </div>
+                            <div class="input-wrapper width-2-12">
+                                <div class="input-addon width-1">
+                                    x
+                                </div>
+                            </div>
+                            <div class="input-wrapper width-5-12">
+                                <input type="text"
+                                       name="<?php echo $add_printer_manufacturer->name; ?>"
+                                       id="<?php echo $add_printer_manufacturer->name; ?>"
+                                       placeholder="400"
+                                       value="<?php echo $add_printer_manufacturer->user_input; ?>"
+                                       class="text width-1" />
+                            </div>
+                            <?php $add_printer_manufacturer->display_message_with_view(); ?>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group width-1 inline-fix
+                                <?php echo $add_printer_manufacturer->status; ?>">
+                        <label for="<?php echo $add_printer_manufacturer->name; ?>">Small Print Price</label>
+                        <div class="input-wrapper width-3-12">
+                            <div class="input-addon width-1">
+                                &pound;
+                            </div>
+                        </div>
+                        <div class="input-wrapper width-9-12">
+                            <input type="text"
+                                   name="<?php echo $add_printer_manufacturer->name; ?>"
+                                   id="<?php echo $add_printer_manufacturer->name; ?>"
+                                   placeholder="4.99"
+                                   value="<?php echo $add_printer_manufacturer->user_input; ?>"
+                                   class="text width-1" />
+                        </div>
 
-                <div class="input-wrapper width-large-4-12 width-medium-6-12 width-small-6-12 width-tiny-1">
+                        <?php $add_printer_manufacturer->display_message_with_view(); ?>
+                    </div>
+
+                    <div class="input-group width-1 inline-fix
+                                <?php echo $add_printer_manufacturer->status; ?>">
+                        <label for="<?php echo $add_printer_manufacturer->name; ?>">Small Print Delivery Price</label>
+                        <div class="input-wrapper width-3-12">
+                            <div class="input-addon width-1">
+                                &pound;
+                            </div>
+                        </div>
+                        <div class="input-wrapper width-9-12">
+                            <input type="text"
+                                   name="<?php echo $add_printer_manufacturer->name; ?>"
+                                   id="<?php echo $add_printer_manufacturer->name; ?>"
+                                   placeholder="5.00"
+                                   value="<?php echo $add_printer_manufacturer->user_input; ?>"
+                                   class="text width-1" />
+                        </div>
+
+                        <?php $add_printer_manufacturer->display_message_with_view(); ?>
+                    </div>
+                </div>
+                
+                <div class="width-large-4-12 width-medium-6-12 width-small-6-12 width-tiny-1">
+                    <div class="input-group width-1 inline-fix
+                                <?php echo $add_printer_manufacturer->status; ?>">
+                        <label for="<?php echo $add_printer_manufacturer->name; ?>">Medium Print Price</label>
+                        <div class="input-wrapper width-3-12">
+                            <div class="input-addon width-1">
+                                &pound;
+                            </div>
+                        </div>
+                        <div class="input-wrapper width-9-12">
+                            <input type="text"
+                                   name="<?php echo $add_printer_manufacturer->name; ?>"
+                                   id="<?php echo $add_printer_manufacturer->name; ?>"
+                                   placeholder="7.99"
+                                   value="<?php echo $add_printer_manufacturer->user_input; ?>"
+                                   class="text width-1" />
+                        </div>
+
+                        <?php $add_printer_manufacturer->display_message_with_view(); ?>
+                    </div>
+
+                    <div class="input-group width-1 inline-fix
+                                <?php echo $add_printer_manufacturer->status; ?>">
+                        <label for="<?php echo $add_printer_manufacturer->name; ?>">Medium Print Delivery Price</label>
+                        <div class="input-wrapper width-3-12">
+                            <div class="input-addon width-1">
+                                &pound;
+                            </div>
+                        </div>
+                        <div class="input-wrapper width-9-12">
+                            <input type="text"
+                                   name="<?php echo $add_printer_manufacturer->name; ?>"
+                                   id="<?php echo $add_printer_manufacturer->name; ?>"
+                                   placeholder="5.00"
+                                   value="<?php echo $add_printer_manufacturer->user_input; ?>"
+                                   class="text width-1" />
+                        </div>
+
+                        <?php $add_printer_manufacturer->display_message_with_view(); ?>
+                    </div>
+                </div>
+                
+                <div class="width-large-4-12 width-medium-6-12 width-small-6-12 width-tiny-1">
+                    <div class="input-group width-1 inline-fix
+                                <?php echo $add_printer_manufacturer->status; ?>">
+                        <label for="<?php echo $add_printer_manufacturer->name; ?>">Large Print Price</label>
+                        <div class="input-wrapper width-3-12">
+                            <div class="input-addon width-1">
+                                &pound;
+                            </div>
+                        </div>
+                        <div class="input-wrapper width-9-12">
+                            <input type="text"
+                                   name="<?php echo $add_printer_manufacturer->name; ?>"
+                                   id="<?php echo $add_printer_manufacturer->name; ?>"
+                                   placeholder="13.99"
+                                   value="<?php echo $add_printer_manufacturer->user_input; ?>"
+                                   class="text width-1" />
+                        </div>
+
+                        <?php $add_printer_manufacturer->display_message_with_view(); ?>
+                    </div>
+
+                    <div class="input-group width-1 inline-fix
+                                <?php echo $add_printer_manufacturer->status; ?>">
+                        <label for="<?php echo $add_printer_manufacturer->name; ?>">Large Print Delivery Price</label>
+                        <div class="input-wrapper width-3-12">
+                            <div class="input-addon width-1">
+                                &pound;
+                            </div>
+                        </div>
+                        <div class="input-wrapper width-9-12">
+                            <input type="text"
+                                   name="<?php echo $add_printer_manufacturer->name; ?>"
+                                   id="<?php echo $add_printer_manufacturer->name; ?>"
+                                   placeholder="5.00"
+                                   value="<?php echo $add_printer_manufacturer->user_input; ?>"
+                                   class="text width-1" />
+                        </div>
+
+                        <?php $add_printer_manufacturer->display_message_with_view(); ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -198,11 +380,12 @@
                 <div class="content-header">
                     Payment Details
                 </div>
-
+                
+                <?php $payment_controller->display_inputs_with_view('Payment'); ?>
+                
                 <div class="input-wrapper width-large-4-12 width-medium-6-12 width-small-6-12 width-tiny-1">
-                </div>
-                <div class="input-wrapper width-large-4-12 width-medium-6-12 width-small-6-12 width-tiny-1">
-                    <div class="input-wrapper width-1">
+                    <div class="paypal-button">Pay with</div>
+                    <div class="width-1">
                         <input type="submit"
                                name="add_printer_submit"
                                value="Change email"
